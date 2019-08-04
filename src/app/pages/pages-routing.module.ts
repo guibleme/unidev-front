@@ -13,10 +13,10 @@ const routes: Routes = [
     path: '',
     component: PagesComponent,
     children: [
-    {
-      path: 'dashboard',
-      component: DashboardComponent,
-    },
+    // {
+    //   path: 'dashboard',
+    //   component: DashboardComponent,
+    // },
     {
       path: 'importacao',
       component: ImportacaoComponent,
@@ -85,7 +85,7 @@ const routes: Routes = [
     // },
     {
       path: '',
-      redirectTo: 'dashboard',
+      redirectTo: 'importacao',
       pathMatch: 'full',
     },
     {

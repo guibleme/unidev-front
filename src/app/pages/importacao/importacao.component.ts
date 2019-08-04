@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FileSystemDirectoryEntry, FileSystemFileEntry, NgxFileDropEntry} from 'ngx-file-drop';
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
-import {NbToastrService} from "@nebular/theme";
+import {NbToastrService, NbWindowService} from "@nebular/theme";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {HttpServiceService} from "../../services/http-service.service";
 
@@ -23,13 +23,23 @@ export class ImportacaoComponent implements OnInit {
 
   files: NgxFileDropEntry[] = [];
 
+  // TODO static must be false as of Angular 9.0.0
+  @ViewChild('popoverDivergencias', { static: false }) popoverDivergencias: TemplateRef<any>;
+
+
   results = [];
 
-  totalAdvertencias = 13000;
-  totalLinhas = 100000;
-  totalCorretas = 87000;
+  totalAdvertencias = 3;
+  totalLinhas = 5;
+  totalCorretas = this.totalLinhas - this.totalAdvertencias ;
   percentResult = this.totalAdvertencias / this.totalLinhas;
   statusPercent: any;
+
+  listaDivergencias: any =  [
+    {"codProcedimento": "408259", dataExecucao: "08/05/2019", "valorTotal": 189.59, "status": 3, descStatus: "Valor unitário maior que a tabela de preço"},
+    {"codProcedimento": "408456", dataExecucao: "07/05/2019", "valorTotal": 250.59, "status": 4, descStatus: "Código não autorizado para o prestador"},
+    {"codProcedimento": "408259", dataExecucao: "10/05/2019", "valorTotal": 178.59, "status": 4, descStatus: "Código não autorizado para o prestador"}
+      ];
 
   states = [
     {
@@ -58,7 +68,8 @@ export class ImportacaoComponent implements OnInit {
 
   constructor(private toastrService: NbToastrService,
               private httpService: HttpServiceService,
-              private http: HttpClient) { }
+              private http: HttpClient,
+              private windowService: NbWindowService) { }
 
 
   ngOnInit() {
@@ -74,11 +85,14 @@ export class ImportacaoComponent implements OnInit {
   }
 
   checkPercent() {
-    if (this.percentResult >= 0.2) {
+    if (this.percentResult === 0) {
+      this.statusPercent = 'primary';
+      return true;
+    }else if (this.percentResult >= 0.2) {
       this.statusPercent = 'danger';
       return false;
     }else {
-      this.statusPercent = 'primary';
+      this.statusPercent = 'warning';
       return true;
     }
   }
@@ -159,6 +173,13 @@ export class ImportacaoComponent implements OnInit {
   removeAll() {
     this.files = [];
     this.viewState = 0;
+  }
+
+  openWindow(item) {
+    this.windowService.open(
+      this.popoverDivergencias,
+      { title: 'Divergências encontradas' },
+    );
   }
 }
 

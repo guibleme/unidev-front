@@ -139,10 +139,13 @@ $nb-themes: nb-register-theme((
 ), unidev-theme, default);
 
 .custom-content {
-  text-align: center;
-  color: #00995D;
+  text-align: left;
+  color: #002D66;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0.5rem 1rem 0 rgba(44, 51, 73, 0.1);
+  box-shadow: 0 0.5rem 1rem 0 rgba(25, 73, 45, 0.1);
 }
 
+//.text-primary {
+//  color: #00995D !important;
+//}

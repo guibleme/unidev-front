@@ -1,12 +1,12 @@
 
 <section [@fadeInOnEnter] [@fadeOutOnLeave]>
-  <nb-card>
+  <nb-card accent="primary">
+    <nb-card-header >
+      <h4>Envio de produção</h4>
+      <p>Tela destinada ao envio dos arquivos XML de produção</p>
+    </nb-card-header>
     <nb-card-body>
-      <div class="mb-5">
-        <h3>Envio de produção</h3>
-        <p class="text-desc">Tela destinada ao envio dos arquivos XML de produção</p>
-      </div>
-      <div class="center"
+      <div class="text-left"
            [@fadeInOnEnter] [@fadeOutOnLeave]>
         <div class="upload-container"
              [@fadeInOnEnter] [@fadeOutOnLeave]
@@ -23,7 +23,7 @@
                          let-openFileSelector="openFileSelector">
               Arraste os arquivos para esta área ou clique no botão ao lado para
               <button nbButton  style="margin-left: 10px;" size="small"
-                      status="primary"
+                      status="info"
                       (click)="openFileSelector()">Selecionar arquivos</button>
             </ng-template>
           </ngx-file-drop>
@@ -64,38 +64,40 @@ white-space: nowrap;">{{ item.relativePath }}</td>
   <nb-card [@fadeInOnEnter] [@fadeOutOnLeave]
   *ngIf="viewState >= 2">
     <nb-card-body>
-      <div class="mb-5">
+      <div class="mb-5 ">
         <h4>Resumo da transação</h4>
         <p class="text-desc">Confira abaixo a análise dos dados enviados</p>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-gap: 20px;">
-        <nb-card>
+        <nb-card status="info">
           <nb-card-header>Total</nb-card-header>
           <nb-card-body>
-            <p>{{totalLinhas | number}} itens</p>
+            <h2>{{totalLinhas | number}}</h2>
           </nb-card-body>
         </nb-card>
 
-        <nb-card accent="success">
+        <nb-card status="primary">
           <nb-card-header>Corretas</nb-card-header>
           <nb-card-body>
-            <p>{{totalCorretas | number}} itens</p>
+            <h2>{{totalCorretas | number}}</h2>
           </nb-card-body>
         </nb-card>
 
-        <nb-card accent="danger">
-          <nb-card-header>Desvios</nb-card-header>
+        <nb-card status="danger">
+          <nb-card-header>Divergências</nb-card-header>
           <nb-card-body>
-            <p>{{totalAdvertencias | number}} itens</p>
+            <h2>{{totalAdvertencias | number}}</h2>
           </nb-card-body>
         </nb-card>
 
         <nb-card status="{{statusPercent}}">
-          <nb-card-header><span *ngIf="checkPercent()">Aprovada</span><span *ngIf="!checkPercent()">Reprovada</span></nb-card-header>
+          <nb-card-header>
+            <span [ngClass]="{'text-black-50': percentResult < 0.2}">Resultado</span>
+          </nb-card-header>
           <nb-card-body>
-            <p>{{ percentResult | percent}} de desvio</p>
-            <input type="text" nbInput fullWidth shape="round" [(ngModel)]="percentResult" placeholder="{{percentResult | percent}}">
+            <h2>{{ percentResult | percent}}</h2>
+<!--            <input type="text" nbInput fullWidth shape="round" [(ngModel)]="percentResult" placeholder="{{percentResult | percent}}">-->
           </nb-card-body>
         </nb-card>
       </div>
@@ -106,17 +108,17 @@ white-space: nowrap;">{{ item.relativePath }}</td>
         <div *ngIf="!checkPercent()" [@fadeInOnEnter] [@fadeOutOnLeave]>
           <table class="table">
             <thead>
-            <tr>
-              <th class="sticky-header" colspan="2">Arquivo</th>
-              <th class="sticky-header text-right"></th>
-            </tr>
+              <tr>
+                <th class="sticky-header" colspan="2">Arquivo</th>
+                <th class="sticky-header text-right"></th>
+              </tr>
             </thead>
             <tbody class="upload-name">
-            <tr *ngFor="let item of files; let i=index">
+            <tr *ngFor="let item of files; let i=index" (click)="openWindow(item)">
               <td>{{i}}</td>
               <td style="max-width: calc(100vw - 280px); text-overflow: ellipsis; overflow: hidden;
 white-space: nowrap;">{{ item.relativePath }}</td>
-              <td class="text-right text-danger">{{(13000) | number}} itens com erro</td>
+              <td class="text-right text-danger">{{(3) | number}} itens com erro</td>
             </tr>
             <tr *ngIf="files.length <= 0">
               <td colspan="2"><strong>Nenhum arquivo selecionado</strong></td>
@@ -129,3 +131,25 @@ white-space: nowrap;">{{ item.relativePath }}</td>
     </nb-card-body>
   </nb-card>
 </section>
+
+
+<ng-template #popoverDivergencias let-data fullWidth="true">
+  <table class="table table-striped" style="width: 900px !important;" >
+    <thead>
+      <tr>
+        <td>Cod. Procedimento</td>
+        <td>Dt. Atendimento</td>
+        <td>Valor Total</td>
+        <td>Status</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listaDivergencias">
+        <td>{{item.codProcedimento}}</td>
+        <td>{{item.dataExecucao | date: 'short'}}</td>
+        <td>{{item.valorTotal | currency: 'BRL': true}}</td>
+        <td class="text-danger">{{item.descStatus}}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
