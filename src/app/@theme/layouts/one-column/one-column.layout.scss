@@ -6,4 +6,12 @@
   .menu-sidebar ::ng-deep .scrollable {
     padding-top: nb-theme(layout-padding-top);
   }
+  .drop-zone-modifier {
+    border-radius: 8px;
+    box-shadow: 0 0.5rem 0.5rem 0 rgba(44, 51, 73, 0.05);
+  }
+}
+.drop-zone-modifier {
+  border-radius: 8px;
+  box-shadow: 0 0.5rem 0.5rem 0 rgba(44, 51, 73, 0.05);
 }

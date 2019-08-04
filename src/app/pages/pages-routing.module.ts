@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { ImportacaoComponent } from './importacao/importacao.component';
+import {AtuTabelaPrecosComponent} from "./atu-tabela-precos/atu-tabela-precos.component";
 
 const routes: Routes = [
   {
@@ -14,11 +15,15 @@ const routes: Routes = [
     children: [
     {
       path: 'dashboard',
-      component: ECommerceComponent,
+      component: DashboardComponent,
     },
     {
       path: 'importacao',
       component: ImportacaoComponent,
+    },
+    {
+      path: 'atu-tabela-precos',
+      component: AtuTabelaPrecosComponent,
     },
     // {
     //   path: 'dashboard',
