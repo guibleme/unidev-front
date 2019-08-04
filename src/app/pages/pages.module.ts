@@ -1,5 +1,13 @@
 import { NgModule } from '@angular/core';
-import {NbAlertModule, NbButtonModule, NbCardModule, NbIconModule, NbLayoutModule, NbMenuModule} from '@nebular/theme';
+import {
+  NbAlertModule,
+  NbButtonModule,
+  NbCardModule, NbDatepickerModule,
+  NbIconModule, NbInputModule,
+  NbLayoutModule, NbListModule,
+  NbMenuModule, NbPopoverModule,
+  NbSearchModule, NbTooltipModule
+} from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -26,6 +34,12 @@ import { AtuTabelaPrecosComponent } from './atu-tabela-precos/atu-tabela-precos.
     NbAlertModule,
     FormsModule,
     MiscellaneousModule,
+    NbSearchModule,
+    NbListModule,
+    NbPopoverModule,
+    NbTooltipModule,
+    NbInputModule,
+    NbDatepickerModule,
   ],
   declarations: [
     PagesComponent,

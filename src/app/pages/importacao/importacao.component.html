@@ -31,7 +31,7 @@
         <div class="upload-table mt-3"
              *ngIf="files.length > 0"
              [@fadeInOnEnter] [@fadeOutOnLeave]>
-          <table class="table">
+          <table class="table table-striped">
             <thead>
             <tr>
               <th class="sticky-header" colspan="2">Arquivo</th>
@@ -62,7 +62,7 @@ white-space: nowrap;">{{ item.relativePath }}</td>
   </nb-card>
 
   <nb-card [@fadeInOnEnter] [@fadeOutOnLeave]
-  *ngIf="viewState">
+  *ngIf="viewState >= 2">
     <nb-card-body>
       <div class="mb-5">
         <h4>Resumo da transação</h4>
@@ -101,14 +101,14 @@ white-space: nowrap;">{{ item.relativePath }}</td>
       </div>
       <div class="mt-4">
         <nb-alert *ngIf="checkPercent()" accent="primary">Sua transação de envio de produção foi aprovada e enviada para nossa equipe.</nb-alert>
-        <nb-alert *ngIf="!checkPercent()" accent="danger">A transação fora reprovada. Confira na lista abaixo os arquivos com erro, corrija-os e tente novamente.</nb-alert>
+        <nb-alert *ngIf="!checkPercent()" accent="danger">A transação foi reprovada. Confira na lista abaixo os arquivos com erro, corrija-os e tente novamente.</nb-alert>
 
         <div *ngIf="!checkPercent()" [@fadeInOnEnter] [@fadeOutOnLeave]>
           <table class="table">
             <thead>
             <tr>
               <th class="sticky-header" colspan="2">Arquivo</th>
-              <th class="sticky-header text-right"><button nbButton outline size="tiny" status="danger" *ngIf="viewState < 2 && viewState > 0"  (click)="removeAll()  ">apagar todos</button></th>
+              <th class="sticky-header text-right"></th>
             </tr>
             </thead>
             <tbody class="upload-name">
@@ -116,7 +116,7 @@ white-space: nowrap;">{{ item.relativePath }}</td>
               <td>{{i}}</td>
               <td style="max-width: calc(100vw - 280px); text-overflow: ellipsis; overflow: hidden;
 white-space: nowrap;">{{ item.relativePath }}</td>
-              <td class="text-right"><button nbButton outline size="tiny" *ngIf="viewState < 2 && viewState > 0" class="grow-button" status="danger" (click)="removeItem(i)"><nb-icon [icon]="'trash-2-outline'"></nb-icon><span class="grow-content">apagar</span></button></td>
+              <td class="text-right text-danger">{{(13000) | number}} itens com erro</td>
             </tr>
             <tr *ngIf="files.length <= 0">
               <td colspan="2"><strong>Nenhum arquivo selecionado</strong></td>
