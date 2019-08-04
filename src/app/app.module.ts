@@ -31,7 +31,6 @@ import {
     HttpClientModule,
     AppRoutingModule,
     ThemeModule.forRoot(),
-    NbLayoutModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),

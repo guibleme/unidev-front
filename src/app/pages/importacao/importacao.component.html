@@ -1,3 +1,131 @@
-<nb-layout>
 
-</nb-layout>
+<section [@fadeInOnEnter] [@fadeOutOnLeave]>
+  <nb-card>
+    <nb-card-body>
+      <div class="mb-5">
+        <h3>Envio de produção</h3>
+        <p class="text-desc">Tela destinada ao envio dos arquivos XML de produção</p>
+      </div>
+      <div class="center"
+           [@fadeInOnEnter] [@fadeOutOnLeave]>
+        <div class="upload-container"
+             [@fadeInOnEnter] [@fadeOutOnLeave]
+             *ngIf="viewState < 2">
+          <ngx-file-drop
+            dropZoneClassName="teste"
+            contentClassName="custom-content"
+            dropZoneLabel="Arraste os arquivos aqui"
+            (onFileDrop)="dropped($event)"
+            (onFileOver)="fileOver($event)"
+            (onFileLeave)="fileLeave($event)">
+            <ng-template ngx-file-drop-content-tmp
+                         class="color-primary-500"
+                         let-openFileSelector="openFileSelector">
+              Arraste os arquivos para esta área ou clique no botão ao lado para
+              <button nbButton  style="margin-left: 10px;" size="small"
+                      status="primary"
+                      (click)="openFileSelector()">Selecionar arquivos</button>
+            </ng-template>
+          </ngx-file-drop>
+        </div>
+        <div class="upload-table mt-3"
+             *ngIf="files.length > 0"
+             [@fadeInOnEnter] [@fadeOutOnLeave]>
+          <table class="table">
+            <thead>
+            <tr>
+              <th class="sticky-header" colspan="2">Arquivo</th>
+              <th class="sticky-header text-right"><button nbButton outline size="tiny" status="danger" *ngIf="viewState < 2 && viewState > 0"  (click)="removeAll()  ">apagar todos</button></th>
+            </tr>
+            </thead>
+            <tbody class="upload-name">
+            <tr *ngFor="let item of files; let i=index">
+              <td>{{i}}</td>
+              <td style="max-width: calc(100vw - 280px); text-overflow: ellipsis; overflow: hidden;
+white-space: nowrap;">{{ item.relativePath }}</td>
+              <td class="text-right"><button nbButton outline size="tiny" *ngIf="viewState < 2 && viewState > 0" class="grow-button" status="danger" (click)="removeItem(i)"><nb-icon [icon]="'trash-2-outline'"></nb-icon><span class="grow-content">apagar</span></button></td>
+            </tr>
+            <tr *ngIf="files.length <= 0">
+              <td colspan="2"><strong>Nenhum arquivo selecionado</strong></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="files.length > 0">
+          <div class="text-right"><strong>{{files.length}}</strong> arquivos</div>
+        </div>
+        <div class="confirm-container text-center mt-3" *ngIf="viewState < 2 && viewState > 0 && files.length > 0" [@fadeInOnEnter] [@fadeOutOnLeave]>
+          <button nbButton size="medium" class="grow-button" status="primary" (click)="sendToAnalysis()"><span>Analisar seleção</span></button>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+
+  <nb-card [@fadeInOnEnter] [@fadeOutOnLeave]
+  *ngIf="viewState">
+    <nb-card-body>
+      <div class="mb-5">
+        <h4>Resumo da transação</h4>
+        <p class="text-desc">Confira abaixo a análise dos dados enviados</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-gap: 20px;">
+        <nb-card>
+          <nb-card-header>Total</nb-card-header>
+          <nb-card-body>
+            <p>{{totalLinhas | number}} itens</p>
+          </nb-card-body>
+        </nb-card>
+
+        <nb-card accent="success">
+          <nb-card-header>Corretas</nb-card-header>
+          <nb-card-body>
+            <p>{{totalCorretas | number}} itens</p>
+          </nb-card-body>
+        </nb-card>
+
+        <nb-card accent="danger">
+          <nb-card-header>Desvios</nb-card-header>
+          <nb-card-body>
+            <p>{{totalAdvertencias | number}} itens</p>
+          </nb-card-body>
+        </nb-card>
+
+        <nb-card status="{{statusPercent}}">
+          <nb-card-header><span *ngIf="checkPercent()">Aprovada</span><span *ngIf="!checkPercent()">Reprovada</span></nb-card-header>
+          <nb-card-body>
+            <p>{{ percentResult | percent}} de desvio</p>
+            <input type="text" nbInput fullWidth shape="round" [(ngModel)]="percentResult" placeholder="{{percentResult | percent}}">
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div class="mt-4">
+        <nb-alert *ngIf="checkPercent()" accent="primary">Sua transação de envio de produção foi aprovada e enviada para nossa equipe.</nb-alert>
+        <nb-alert *ngIf="!checkPercent()" accent="danger">A transação fora reprovada. Confira na lista abaixo os arquivos com erro, corrija-os e tente novamente.</nb-alert>
+
+        <div *ngIf="!checkPercent()" [@fadeInOnEnter] [@fadeOutOnLeave]>
+          <table class="table">
+            <thead>
+            <tr>
+              <th class="sticky-header" colspan="2">Arquivo</th>
+              <th class="sticky-header text-right"><button nbButton outline size="tiny" status="danger" *ngIf="viewState < 2 && viewState > 0"  (click)="removeAll()  ">apagar todos</button></th>
+            </tr>
+            </thead>
+            <tbody class="upload-name">
+            <tr *ngFor="let item of files; let i=index">
+              <td>{{i}}</td>
+              <td style="max-width: calc(100vw - 280px); text-overflow: ellipsis; overflow: hidden;
+white-space: nowrap;">{{ item.relativePath }}</td>
+              <td class="text-right"><button nbButton outline size="tiny" *ngIf="viewState < 2 && viewState > 0" class="grow-button" status="danger" (click)="removeItem(i)"><nb-icon [icon]="'trash-2-outline'"></nb-icon><span class="grow-content">apagar</span></button></td>
+            </tr>
+            <tr *ngIf="files.length <= 0">
+              <td colspan="2"><strong>Nenhum arquivo selecionado</strong></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </nb-card-body>
+  </nb-card>
+</section>

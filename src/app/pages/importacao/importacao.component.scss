@@ -1,0 +1,38 @@
+.drop-zone-modifier {
+  border-radius: 8px;
+  box-shadow: 0 0.5rem 0.5rem 0 rgba(44, 51, 73, 0.05);
+}
+
+.upload-table {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    background: white;
+    box-shadow: 0 0.5rem 1rem 0 rgba(44, 51, 73, 0.1);
+  }
+
+  .grow-button {
+    .grow-content {
+      width: 0.0000000001px;
+      opacity: 0.00001;
+      transition: 0.3s all ease-in-out;
+    }
+    &:hover {
+      .grow-content {
+        width: 40px;
+        opacity: 1;
+        transition: 0.3s all ease-in-out;
+      }
+    }
+
+  }
+}
+
+.text-desc {
+  font-size: 0.8rem;
+  color: #6f6f6f;
+}

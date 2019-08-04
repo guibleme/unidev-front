@@ -2,10 +2,24 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
+    title: 'Dashboard',
+    icon: 'home-outline',
+    link: '/pages/dashboard',
+    home: true,
+  },
+  {
     title: 'Importacao',
     icon: 'cloud-upload-outline',
     link: '/pages/importacao',
     home: true,
+  },
+  {title: 'Administrador',
+    icon: 'person-outline',
+    children: [
+      {
+        title: 'Atualizar tabela de preços',
+        link: '/pages/atu-tabela-precos',
+      }],
   },
   // {
   //   title: 'E-commerce',
