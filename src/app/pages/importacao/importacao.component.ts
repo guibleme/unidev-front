@@ -5,9 +5,9 @@ import {NbToastrService, NbWindowService} from "@nebular/theme";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {HttpServiceService} from "../../services/http-service.service";
 
-const endpoint = 'http://192.168.1.38:3001';
+const endpoint = 'http://127.0.0.1:3001';
 const httpformData = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded', 'mimetype': 'application/xml' }),
+  headers: new HttpHeaders(/*{'Content-Type': 'multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL' }*/)
 };
 
 @Component({
